@@ -1,5 +1,7 @@
 
 #include <iostream>
+#include <string>
+#include <limits>
 using namespace std;
 
 string patron_info[100][4] = {
@@ -108,8 +110,10 @@ int main(){
         // Choice variable to store the choice
         // Poin to go to
         main:
-
-        int choice; 
+bool validInput=false;
+  int choice; 
+  do{
+            
         cout << "1. Add Book" << endl;
         cout << "2. Remove Book" << endl;
         cout << "3. Borrow Book" << endl;
@@ -121,8 +125,21 @@ int main(){
         cout << "9. search patron by their name" << endl;
         cout << "10. Display report" << endl;
         cout << "0. Exit" << endl;
+        if (cin >> choice) {
+            if (choice >= 1 && choice <= 12) {
+                validInput = true;
+            } else {
+                cout << "Invalid input. Please enter a number between 0 and 10." << endl;
+            }
+        } else {
+            cout << "Invalid input. Please enter a valid number." <<endl;
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    } while (!validInput);
 
-        cin >> choice;
+validInput=false;
+        
     
 
         if(choice == 1){
@@ -141,6 +158,7 @@ int main(){
 
             // adding the number of books by 1
             book_counter ++;    
+             cout << "\033[H\033[2J";
             cout << "ADDED THE BOOKS SUCCESFULLY" << endl;       
         }
 
@@ -164,6 +182,7 @@ int main(){
             }
             // removing the number of books by 1
             book_counter --; 
+             cout << "\033[H\033[2J";
             cout << "REMOVED THE BOOKS SUCCESFULLY" << endl;
         }
         else if(choice == 3){
@@ -210,7 +229,7 @@ int main(){
                                         info_borrowed[k][1] +=1;
                                         taken_books[taken_counter] = book_name;
                                         taken_counter++;
-
+ cout << "\033[H\033[2J";
                                         cout << "BORROWED THE BOOK SUCCESSFULLY" << endl;
                                         // STEP 5: Removing the book from the catalog
                                         catalog[j][0] = "0";
@@ -220,6 +239,7 @@ int main(){
                                         goto main;
                                     }
                                     else{
+                                         cout << "\033[H\033[2J";
                                         cout << "Cannot borrow books anymore You have execced the limit " << endl;
                                         goto main;
                                     }                                
@@ -237,6 +257,7 @@ int main(){
                             catalog[j][1] = "0";
 
                             book_counter --;
+                             cout << "\033[H\033[2J";
                             cout << "BORROWED THE BOOK SUCCESSFULLY" << endl;
                             goto main;
                         }
@@ -244,6 +265,7 @@ int main(){
                     }
                 }                
             }
+             cout << "\033[H\033[2J";
             cout << "Either the book is taken or the student is not in the list" << endl;
             cout << "Please add those first "<< endl;
             goto main; 
@@ -297,6 +319,7 @@ int main(){
                                     catalog[book_counter][1] = book_author;
 
                                     book_counter++;
+                                     cout << "\033[H\033[2J";
                                     cout << "Returend book, Thank You" << endl;  
 
                                     goto main;                            
@@ -306,6 +329,11 @@ int main(){
                     }
                 }                
             }
+           
+            cout << "\033[H\033[2J";
+             cout<<name<<endl;
+            cout<<book_name<<endl;
+            cout<<book_author<<endl;
             cout << "Either you haven't borrowed or the student is not in the list" << endl;
             goto main; 
         }
@@ -325,10 +353,11 @@ int main(){
                    checker = 1;
                 }
             }
-
+            
+goto main;
             if(checker == 0){
                 cout << "The book doesnt exist" << endl;
-            }
+            }goto main;
         }
         else if(choice == 6){
             for(int i=0; i<book_counter; i++){     
@@ -398,12 +427,15 @@ int main(){
             patron_info[patron_counter][3] = to_string(patron_counter + 1);
 
             patron_counter ++;
+             cout << "\033[H\033[2J";
+             cout<<name<<endl;
+            cout<<gender<<endl;
+            cout<<Phone_number<<endl;
+            
 
             cout << "Succesfully added!"<< endl;
         }
-        
-        
-else if(choice == 8){
+        else if(choice == 8){
             for(int i=0; i<patron_counter; i++){
                 cout << "########################################################"<< endl;
                 cout << "Name: "<< patron_info[i][0] << endl;
@@ -411,8 +443,8 @@ else if(choice == 8){
                 cout << patron_info[i][2] << endl;
                 cout << "ID: " << patron_info[i][3] << endl;
             }
-        }  
-      else if(choice == 9){
+        }
+        else if(choice == 9){
             string name;
             int checker = 0;
             cout << "What is the name of the patron u want to search : "<< endl;
@@ -430,7 +462,7 @@ else if(choice == 8){
                 }
             }
             if(checker == 0){
-                cout << "The Pateron Doesn't Exist "<< endl;
+                cout << "The Pateron Doesn't Exist "<< endl;goto main;
             }
 
         }
