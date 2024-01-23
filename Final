@@ -261,3 +261,65 @@ else if(choice == 3){
             cout << "Please add those first "<< endl;
             goto main; 
         }  
+ else if(choice == 4){
+            /* HOW THIS PART WORKS: */
+
+            /* 1, Checking if the student exist */
+            /* 2, Checking if the specific student borrowed a book */
+            /* 3, Checking if the book is borrowed */
+            /* 4, Removing it from the taken books */
+            /* 5, Decrease the number of borrowed books for that user */
+            /* 6, Adding the book to the catalog */
+
+            /* -----------------------------------------------end----------------------------------------------------------------------- */
+
+            string name;
+            string book_name;
+            string book_author;
+            cout << "what is the name of the student: " << endl;
+            cin.ignore();
+            getline(cin,name);
+
+            cout << "What is the name of the book: " << endl;
+            getline(cin,book_name);
+
+            cout << "What is the authors name: " << endl;
+            getline(cin,book_author);
+
+            for(int i=0; i<=patron_counter; i++){
+                if(patron_info[i][0] == name){
+                    // STEP 1: Checking if the student exist
+
+                    string id_str = patron_info[i][3]; 
+                    int id_int = atoi(id_str.c_str());                                               // u didnt learn this
+
+                    // STEP 2: Checking if the specific student borrowed a book
+                    for(int j=0; j<=info_counter; j++){
+                        if(info_borrowed[j][0] == id_int){
+
+                            // STEP 3: Checking if the book is borrowed
+                            for(int k=0; k<=taken_counter; k++){ 
+                                if(taken_books[k] == book_name){
+                                    // STEP 4: Removing it from the taken books
+                                    taken_books[k] = "0";
+                                    // STEP 5: Decrease the number of books for that user
+                                    info_borrowed[j][1] -= 1; 
+
+                                    // STEP 6: Adding the book to the catalog
+                                    catalog[book_counter][0] = book_name;
+                                    catalog[book_counter][1] = book_author;
+
+                                    book_counter++;
+                                    cout << "Returend book, Thank You" << endl;  
+
+                                    goto main;                            
+                                }
+                            }
+                        }
+                    }
+                }                
+            }
+            cout << "Either you haven't borrowed or the student is not in the list" << endl;
+            goto main; 
+        }
+        
