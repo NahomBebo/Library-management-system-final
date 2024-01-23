@@ -179,3 +179,85 @@ if(choice == 1){
             book_counter --; 
             cout << "REMOVED THE BOOKS SUCCESFULLY" << endl;
         }
+else if(choice == 3){
+            /* HOW THIS PART WORKS: */
+
+            /* 1, We Go check if the ths students exists */
+            /* 2, we check if the book is available */
+            /* 3, We check if the user has borrowed if he did we check how many times he took and if its more than the limit we dont allow */
+            /* 4, if the user hasnt borrowed add him to the info_borrowed */
+            /* 5, we will remove the book from the catalog cause its taken */
+
+            /* -----------------------------------------------end----------------------------------------------------------------------- */
+            string name;
+            string book_name;
+            string book_author;
+            cout << "what is the name of the student: " << endl;
+            cin.ignore();
+            getline(cin,name);
+            
+            cout << "What is the name of the book: " << endl;
+            
+            getline(cin,book_name);
+            
+            cout << "What is the authors name: " << endl;
+            
+            getline(cin,book_author);
+
+            for(int i=0; i<=patron_counter; i++){
+                // STEP 1: Check if the ths students exists
+                if(patron_info[i][0] == name){
+                    string id_str = patron_info[i][3]; 
+                    int id_int = atoi(id_str.c_str());                                            // u didnt learn this
+
+                    // STEP 2: We check if the book is available
+                    for(int j=0; j<=book_counter; j++){
+
+                        if(catalog[j][0] == book_name && catalog[j][1] == book_author){
+                            // STEP 3: Checking if the user has borrowed
+                            for(int k=0; k<=info_counter; k++){ 
+                                if(info_borrowed[k][0] == id_int){
+                                    // STEP 3: Chechking if they have exceed the limit 
+                                    if(info_borrowed[k][1] < limit){
+
+                                        info_borrowed[k][1] +=1;
+                                        taken_books[taken_counter] = book_name;
+                                        taken_counter++;
+
+                                        cout << "BORROWED THE BOOK SUCCESSFULLY" << endl;
+                                        // STEP 5: Removing the book from the catalog
+                                        catalog[j][0] = "0";
+                                        catalog[j][1] = "0";
+
+                                        book_counter --;
+                                        goto main;
+                                    }
+                                    else{
+                                        cout << "Cannot borrow books anymore You have execced the limit " << endl;
+                                        goto main;
+                                    }                                
+                                }
+                            }
+                            // STEP:4 Adding him if he hasn't borrowed
+                            info_borrowed[info_counter][0] = id_int;
+                            info_borrowed[info_counter][1] = 1;
+
+                            taken_books[taken_counter] = book_name;
+                            taken_counter++;
+                            info_counter++;
+
+                            catalog[j][0] = "0";
+                            catalog[j][1] = "0";
+
+                            book_counter --;
+                            cout << "BORROWED THE BOOK SUCCESSFULLY" << endl;
+                            goto main;
+                        }
+
+                    }
+                }                
+            }
+            cout << "Either the book is taken or the student is not in the list" << endl;
+            cout << "Please add those first "<< endl;
+            goto main; 
+        }  
