@@ -156,3 +156,26 @@ if(choice == 1){
             cout << "ADDED THE BOOKS SUCCESFULLY" << endl;       
         }
 
+
+        else if(choice == 2){
+            string book_name;
+            string book_author;
+
+            cout << "Please enter the name of the book: ";
+            cin >> book_name;
+
+            cout << "Please enter the name of the author: ";
+            cin >> book_author;
+
+            // Searching throgh the catalog to remove the data
+            for(int i=0; i<book_counter-1; i++){
+                // if the data matches what the user has enterd it will make the entry "0"
+                if(catalog[i][0] == book_name && catalog[i][1] == book_author){
+                   catalog[i][0] = "0";
+                   catalog[i][1] = "0"; 
+                }
+            }
+            // removing the number of books by 1
+            book_counter --; 
+            cout << "REMOVED THE BOOKS SUCCESFULLY" << endl;
+        }
