@@ -415,6 +415,88 @@ else if(choice == 6){
                 }               
 
             }
+  else if(choice == 7){
+            A:
+            string name,gender,phone_number;
+
+            cout << "What is ur name: ";
+            cin >> name;
+
+            cout << "What is ur gender: ";
+            cin >> gender;
+
+            cout << "What is ur phone number: ";
+            cin >> phone_number;
+
+            string Gender = "Gender : " + gender;
+            string Phone_number = "Phone Number: " + phone_number;
+            
+            for(int i=0; i<=patron_counter; i++){
+                if(patron_info[patron_counter][0] == name){
+                    cout << "The Student Exists" << endl;
+                    goto A;
+                }
+                
+            }
+            patron_info[patron_counter][0] = name;
+            patron_info[patron_counter][1] = Gender;
+            patron_info[patron_counter][2] = Phone_number;
+            patron_info[patron_counter][3] = to_string(patron_counter + 1);
+
+            patron_counter ++;
+
+            cout << "Succesfully added!"<< endl;
+        }
+        else if(choice == 8){
+            for(int i=0; i<patron_counter; i++){
+                cout << "########################################################"<< endl;
+                cout << "Name: "<< patron_info[i][0] << endl;
+                cout << patron_info[i][1] << endl;
+                cout << patron_info[i][2] << endl;
+                cout << "ID: " << patron_info[i][3] << endl;
+            }
+        }
+        else if(choice == 9){
+            string name;
+            int checker = 0;
+            cout << "What is the name of the patron u want to search : "<< endl;
+            cin.ignore();
+            getline(cin,name);
+
+            for(int i=0; i<patron_counter; i++){
+                if(patron_info[i][0] == name){
+                    cout << "########################################################" << endl;
+                    cout << "Name: "<< patron_info[i][0] << endl;
+                    cout << patron_info[i][1] << endl;
+                    cout << patron_info[i][2] << endl;
+                    cout << "ID: " << patron_info[i][3] << endl;
+                    checker = 1;
+                }
+            }
+            if(checker == 0){
+                cout << "The Pateron Doesn't Exist "<< endl;
+            }
+
+        }
+        else if(choice == 10){
+            // Looping through and pring taken books
+            cout << "List of taken Books" << endl;
+            for(int i=0; i<taken_counter; i++){
+                cout << taken_books[i] << endl;
+            }
+            // Looping through and printing id and how many times they took
+            cout << "CAUTION: for security issu we will not be showing student name" << endl;
+            for(int i=0; i<info_counter; i++){
+                cout << "Student with ID: "<< info_borrowed[i][0] << " has borrowed " << info_borrowed[i][1] <<" Times"<<endl;
+            }
+        }
+        else if(choice == 0){
+            exit(0);
+        }
+    }
+}
+
+
 
             cout<< book_counter << " books are in the catalog"<< endl;
 
