@@ -1,0 +1,364 @@
+// Variables
+book_counter = 50
+patron_counter = 20
+limit = 3
+info_borrowed[100][2]
+info_counter = 0
+taken_books[100]
+taken_counter = 0
+
+// Main loop
+while true:
+    // User menu
+    displayMenu()
+    
+    // Input validation loop
+    validInput = false
+    do:
+        // Get user choice
+        input choice
+        if choice is an integer and (1 <= choice <= 12):
+            validInput = true
+        else:
+            display "Invalid input. Please enter a number between 1 and 12."
+        end if
+    while not validInput
+    
+    // Process user choice
+    switch choice:
+        case 1:
+            addBook()
+        case 2:
+            removeBook()
+        case 3:
+            borrowBook()
+        case 4:
+            returnBook()
+        case 5:
+            searchBook()
+        case 6:
+            displayBookDetails()
+        case 7:
+            addPatron()
+        case 8:
+            displayPatronDetails()
+        case 9:
+            searchPatronByName()
+        case 10:
+            displayReport()
+        case 0:
+            exitProgram()
+
+// Function definitions
+// Function to display the menu options
+function displayMenu():
+    display "1. Add Book"
+    display "2. Remove Book"
+    display "3. Borrow Book"
+    display "4. Return Book"
+    display "5. Search Book"
+    display "6. Display Book Details"
+    display "7. Add Patron"
+    display "8. Display Patron Details"
+    display "9. Search Patron by Name"
+    display "10. Display Report"
+    display "0. Exit"
+
+// Function to add a book to the library
+function addBook():
+    // Check if the book limit has been reached
+    if book_counter >= limit:
+        display "Cannot add more books. Book limit reached."
+        return
+    end if
+    
+    // Get book details from the user
+    input book_name
+    input book_author
+    
+    // Add book details to the library
+    catalog[book_counter][0] = book_name
+    catalog[book_counter][1] = book_author
+    
+    // Increment counters
+    book_counter = book_counter + 1
+    
+    display "\033[H\033[2J"  // Clear the screen
+    display "ADDED THE BOOK SUCCESSFULLY"
+
+// Function to remove a book from the library
+function removeBook():
+    // Get book details from the user
+    input book_name
+    input book_author
+
+    // Searching through the catalog to remove the data
+    found = false
+    for i from 0 to book_counter - 1:
+        // If the data matches what the user has entered, set the entry to "0"
+        if catalog[i][0] == book_name and catalog[i][1] == book_author:
+            catalog[i][0] = "0"
+            catalog[i][1] = "0"
+            found = true
+            break
+        end if
+    end for
+
+    if found:
+        display "\033[H\033[2J"  // Clear the screen
+        display "BOOK REMOVED SUCCESSFULLY"
+    else:
+        display "Book not found. Unable to remove."
+
+// Function to borrow a book
+function borrowBook():
+    // Get user input for student and book details
+    input name
+    input book_name
+    input book_author
+
+    // Step 1: Check if the student exists
+    for i from 0 to patron_counter:
+        if patron_info[i][0] == name:
+            // Convert ID from string to integer
+            id_str = patron_info[i][3]
+            id_int = parseInt(id_str)
+
+            // Step 2: Check if the book is available
+            for j from 0 to book_counter:
+                if catalog[j][0] == book_name and catalog[j][1] == book_author:
+                    // Step 3: Check if the user has borrowed
+                    borrowed = false
+                    for k from 0 to info_counter:
+                        if info_borrowed[k][0] == id_int:
+                            // Step 3: Check if they have exceeded the limit
+                            if info_borrowed[k][1] < limit:
+                                info_borrowed[k][1] += 1
+                                taken_books[taken_counter] = book_name
+                                taken_counter++
+
+                                display "\033[H\033[2J"  // Clear the screen
+                                display "BORROWED THE BOOK SUCCESSFULLY"
+
+                                // Step 5: Remove the book from the catalog
+                                catalog[j][0] = "0"
+                                catalog[j][1] = "0"
+                                book_counter--
+
+                                goto main
+                            else:
+                                display "\033[H\033[2J"  // Clear the screen
+                                display "Cannot borrow books anymore. You have exceeded the limit."
+                                goto main
+                            end if
+                            borrowed = true
+                            break
+                        end if
+                    end for
+
+                    // Step 4: Add the user if they haven't borrowed
+                    if not borrowed:
+                        info_borrowed[info_counter][0] = id_int
+                        info_borrowed[info_counter][1] = 1
+
+                        taken_books[taken_counter] = book_name
+                        taken_counter++
+                        info_counter++
+
+                        catalog[j][0] = "0"
+                        catalog[j][1] = "0"
+                        book_counter--
+
+                        display "\033[H\033[2J"  // Clear the screen
+                        display "BORROWED THE BOOK SUCCESSFULLY"
+
+                        goto main
+                    end if
+                end if
+            end for
+        end if
+    end for
+
+    display "\033[H\033[2J"  // Clear the screen
+    display "Either the book is taken or the student is not in the list."
+    display "Please add them first."
+
+    goto main
+
+// Function to return a book
+function returnBook():
+    // Get user input for student and book details
+    input name
+    input book_name
+    input book_author
+
+    for i from 0 to patron_counter:
+        if patron_info[i][0] == name:
+            // Step 1: Checking if the student exists
+            id_str = patron_info[i][3]
+            id_int = parseInt(id_str)
+
+            for j from 0 to info_counter:
+                // Step 2: Checking if the specific student borrowed a book
+                if info_borrowed[j][0] == id_int:
+                    for k from 0 to taken_counter:
+                        // Step 3: Checking if the book is borrowed
+                        if taken_books[k] == book_name:
+                            // Step 4: Removing it from the taken books
+                            taken_books[k] = "0"
+                            // Step 5: Decrease the number of borrowed books for that user
+                            info_borrowed[j][1] -= 1
+
+                            // Step 6: Adding the book to the catalog
+                            catalog[book_counter][0] = book_name
+                            catalog[book_counter][1] = book_author
+
+                            book_counter++
+
+                            display "\033[H\033[2J"  // Clear the screen
+                            display "Returned book. Thank you."
+
+                            goto main
+                        end if
+                    end for
+                end if
+            end for
+        end if
+    end for
+
+    display "\033[H\033[2J"  // Clear the screen
+    display "Either you haven't borrowed or the student is not in the list."
+    goto main
+
+// Function to search for a book in the catalog
+function searchBook():
+    // Get user input for the book name
+    input book_name
+
+    // Initialize a checker variable
+    int checker = 0
+
+    // Iterate through the catalog to find the book
+    for i from 0 to 99:
+        // If the data matches what the user has entered, display the information
+        if catalog[i][0] == book_name:
+            display "The book's name is " + catalog[i][0]
+            display "The book's author is " + catalog[i][1]
+            checker = 1
+        end if
+    end for
+
+    // Display appropriate message based on the checker value
+    if checker == 0:
+        display "The book doesn't exist"
+    end if
+
+    goto main
+
+// Function to display details of all books in the catalog
+function displayBookDetails():
+    // Iterate through the catalog to display book details
+    for i from 0 to book_counter - 1:
+        // Skip books that have been removed (marked as "0")
+        if catalog[i][0] != "0" and catalog[i][1] != "0":
+            display "The book's name is " + catalog[i][0]
+            display "The book's author is " + catalog[i][1]
+            display "###############################################"
+        end if
+    end for
+
+    // Display the total number of books in the catalog
+    display book_counter + " books are in the catalog"
+
+// Function to add a patron to the library
+function addPatron():
+    // Input variables
+    input name, gender, phone_number
+
+    // Create strings for Gender and Phone_number
+    string Gender = "Gender: " + gender
+    string Phone_number = "Phone Number: " + phone_number
+
+    // Check if the patron already exists
+    for i from 0 to patron_counter:
+        if patron_info[i][0] == name:
+            display "The student exists"
+            goto A
+        end if
+    end for
+
+    // Add patron information to the patron_info array
+    patron_info[patron_counter][0] = name
+    patron_info[patron_counter][1] = Gender
+    patron_info[patron_counter][2] = Phone_number
+    patron_info[patron_counter][3] = to_string(patron_counter + 1)
+
+    // Increment the patron counter
+    patron_counter++
+
+    display "\033[H\033[2J"  // Clear the screen
+    display name
+    display gender
+    display Phone_number
+    display "Successfully added!"
+
+// Function to display details of all patrons
+function displayPatronDetails():
+    // Iterate through the patron_info array to display patron details
+    for i from 0 to patron_counter - 1:
+        display "########################################################"
+        display "Name: " + patron_info[i][0]
+        display patron_info[i][1]
+        display patron_info[i][2]
+        display "ID: " + patron_info[i][3]
+    end for
+
+// Function to search for a patron by name
+function searchPatronByName():
+    // Input variable
+    input name
+
+    // Initialize a checker variable
+    int checker = 0
+
+    // Get user input for the patron name to search
+    display "What is the name of the patron you want to search: "
+    cin.ignore()
+    getline(cin, name)
+
+    // Iterate through the patron_info array to search for the patron
+    for i from 0 to patron_counter - 1:
+        if patron_info[i][0] == name:
+            display "########################################################"
+            display "Name: " + patron_info[i][0]
+            display patron_info[i][1]
+            display patron_info[i][2]
+            display "ID: " + patron_info[i][3]
+            checker = 1
+        end if
+    end for
+
+    // Display appropriate message based on the checker value
+    if checker == 0:
+        display "The Patron Doesn't Exist"
+
+    goto main
+
+// Function to display a summary report
+function displayReport():
+    // Display list of taken books
+    display "List of taken Books"
+    for i from 0 to taken_counter - 1:
+        display taken_books[i]
+    end for
+
+    // Display information about borrowed books per student (without showing student names)
+    display "CAUTION: For security reasons, we will not be showing student names"
+    for i from 0 to info_counter - 1:
+        display "Student with ID: " + info_borrowed[i][0] + " has borrowed " + info_borrowed[i][1] + " Times"
+    end for
+
+
+// Exiting the program
+function exitProgram():
+end program
