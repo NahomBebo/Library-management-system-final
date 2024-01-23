@@ -137,3 +137,22 @@ bool validInput=false;
     } while (!validInput);
 
 validInput=false;
+if(choice == 1){
+            string book_name;
+            string book_author;
+
+            cout << "Please enter the name of the book: ";
+            cin.ignore();
+            getline(cin,book_name);
+
+            cout << "Please enter the name of the author: ";
+            cin >> book_author;
+
+            catalog[book_counter][0] = book_name;
+            catalog[book_counter][1] = book_author;
+
+            // adding the number of books by 1
+            book_counter ++;    
+            cout << "ADDED THE BOOKS SUCCESFULLY" << endl;       
+        }
+
