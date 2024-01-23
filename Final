@@ -1,0 +1,139 @@
+
+#include <iostream>
+using namespace std;
+
+string patron_info[100][4] = {
+    {"Alex Johnson", "Gender: Male", "Phone Number: 555-123-4567", "1"},
+    {"Emily Smith", "Gender: Female", "Phone Number: 555-234-5678", "2"},
+    {"Max Williams", "Gender: Male", "Phone Number: 555-345-6789", "3"},
+    {"Olivia Brown", "Gender: Female", "Phone Number: 555-456-7890", "4"},
+    {"Ethan Davis", "Gender: Male", "Phone Number: 555-567-8901", "5"},
+    {"Sophia Miller", "Gender: Female", "Phone Number: 555-678-9012", "6"},
+    {"Liam Wilson", "Gender: Male", "Phone Number: 555-789-0123", "7"},
+    {"Ava Garcia", "Gender: Female", "Phone Number: 555-890-1234", "8"},
+    {"Noah Martinez", "Gender: Male", "Phone Number: 555-901-2345", "9"},
+    {"Isabella Rodriguez", "Gender: Female", "Phone Number: 555-012-3456", "10"},
+    {"Aiden Lopez", "Gender: Male", "Phone Number: 555-123-4567", "11"},
+    {"Mia Lee", "Gender: Female", "Phone Number: 555-234-5678", "12"},
+    {"Lucas Hernandez", "Gender: Male", "Phone Number: 555-345-6789", "13"},
+    {"Charlotte Nguyen", "Gender: Female", "Phone Number: 555-456-7890", "14"},
+    {"James Kim", "Gender: Male", "Phone Number: 555-567-8901", "15"},
+    {"Lily Patel", "Gender: Female", "Phone Number: 555-678-9012", "16"},
+    {"Benjamin Singh", "Gender: Male", "Phone Number: 555-789-0123", "17"},
+    {"Grace Khan", "Gender: Female", "Phone Number: 555-890-1234", "18"},
+    {"Henry Li", "Gender: Male", "Phone Number: 555-901-2345", "19"},
+    {"Zoey Williams", "Gender: Female", "Phone Number: 555-012-3456", "20"}
+    // {"a","Gender: Female", "Phone Number: 555-012-3456", "20"}
+};
+
+string catalog[100][2] = {
+    /*Digital Electronics:*/
+    {"Digital Design", "M. Morris Mano"},
+    {"Digital Systems: Principles and Applications", "Ronald J. Tocci, Neal S. Widmer, and Gregory L. Moss"},
+    {"Digital Electronics: Principles and Applications", "Roger L. Tokheim"},
+    {"Fundamentals of Digital Logic with Verilog Design", "Stephen Brown and Zvonko Vranesic"},
+    {"Digital Integrated Circuits", "Jan M. Rabaey, Anantha Chandrakasan, and Borivoje Nikolic"},
+    /*C++:*/
+    {"C++ Primer", "Stanley B. Lippman, Josée Lajoie, and Barbara E. Moo"},
+    {"Effective Modern C++", "Scott Meyers"},
+    {"Accelerated C++", "Andrew Koenig and Barbara E. Moo"},
+    {"The C++ Programming Language", "Bjarne Stroustrup"},
+    {"C++ Templates: The Complete Guide", "David Vandevoorde and Nicolai M. Josuttis"},
+
+    /*Java:*/
+    {"Effective Java", "Joshua Bloch"},
+    {"Head First Java", "Kathy Sierra and Bert Bates"},
+    {"Java: The Complete Reference", "Herbert Schildt"},
+    {"Thinking in Java", "Bruce Eckel"},
+    {"Java Concurrency in Practice", "Brian Goetz, Tim Peierls, Joshua Bloch, Joseph Bowbeer, David Holmes, and Doug Lea"},
+
+    /*Python:*/
+    {"Python Crash Course", "Eric Matthes"},
+    {"Automate the Boring Stuff with Python", "Al Sweigart"},
+    {"Fluent Python", "Luciano Ramalho"},
+    {"Learning Python", "Mark Lutz"},
+    {"Python Cookbook", "David Beazley and Brian K. Jones"},
+
+    /*Networking:*/
+    {"Computer Networking: A Top-Down Approach", "James F. Kurose and Keith W. Ross"},
+    {"TCP/IP Illustrated", "Kevin R. Fall and W. Richard Stevens"},
+    {"Computer Networks", "Andrew S. Tanenbaum and David J. Wetherall"},
+    {"Data and Computer Communications", "William Stallings"},
+    {"Network Warrior", "Gary A. Donahue"},
+    {"Networking for Dummies", "Doug Lowe"},
+    {"C++ Network Programming", "Douglas C. Schmidt"},
+    {"Java Network Programming", "Elliotte Rusty Harold"},
+    {"Python Networking Programming Cookbook", "M. O. Faruque Sarker"},
+    {"C++ Network Programming, Volume 1: Mastering Complexity with ACE and Patterns", "Douglas C. Schmidt"},
+    {"Networking All-in-One For Dummies", "Doug Lowe"},
+    {"Java Network Programming", "Merlin Hughes, Michael Shoffner, and Derek Hamner"},
+    {"Python Network Programming Cookbook", "Dr. M. O. Faruque Sarker"},
+    {"C++ Network Programming, Volume 2: Systematic Reuse with ACE and Frameworks", "Douglas C. Schmidt"},
+    {"Networking Essentials", "Jeffrey S. Beasley and Piyasat Nilkaew"},
+    {"Java Network Programming, 4th Edition", "Elliotte Rusty Harold and Michael T. Urban"},
+    {"Networking For Dummies", "Doug Lowe"},
+
+    /*Data Structures:*/
+    {"Data Structures and Algorithm Analysis in C++", "Mark A. Weiss"},
+    {"Data Structures and Algorithms in Java", "Robert Lafore"},
+    {"Introduction to the Design and Analysis of Algorithms", "Anany Levitin"},
+    {"Data Structures and Algorithm Analysis in Python", "Clifford A. Shaffer"},
+    {"Algorithms", "Robert Sedgewick and Kevin Wayne"},
+    {"Data Structures and Algorithms Made Easy", "Narasimha Karumanchi"},
+    {"The Algorithm Design Manual", "Steven S. Skiena"},
+    {"Data Structures Using C", "Aaron M. Tenenbaum, Yedidyah Langsam, and Moshe J. Augenstein"},
+    {"Algorithms in C++", "Robert Sedgewick"},
+    {"Data Structures and Algorithms Made Easy in Java", "Narasimha Karumanchi"},
+    {"Programming: Principles and Practice Using C++", "Bjarne Stroustrup"},
+    {"Java Foundations", "John Lewis and Peter DePasquale"},
+    {"Python for Data Analysis", "Wes McKinney"}
+    // {"a", "b"},
+    // {"c", "d"},
+    // {"e", "f"},
+    // {"g","h"}
+    };
+
+int main(){
+    int book_counter = 50;
+    int patron_counter = 20;
+    int limit = 3;
+
+    int info_borrowed[100][2];
+    int info_counter = 0;
+
+    string taken_books[100];
+    int taken_counter = 0;
+
+    while(true){
+        // Choice variable to store the choice
+        // Poin to go to
+        main:
+bool validInput=false;
+  int choice; 
+  do{
+            
+        cout << "1. Add Book" << endl;
+        cout << "2. Remove Book" << endl;
+        cout << "3. Borrow Book" << endl;
+        cout << "4. Return Book" << endl;
+        cout << "5. Search Book" << endl;
+        cout << "6. Display Book Details" << endl;
+        cout << "7. Add Patron" << endl;
+        cout << "8. Display Patron Details" << endl;
+        cout << "9. search patron by their name" << endl;
+        cout << "10. Display report" << endl;
+        cout << "0. Exit" << endl;
+        if (cin >> choice) {
+            if (choice >= 1 && choice <= 12) {
+                validInput = true;
+            } else {
+                cout << "Invalid input. Please enter a number between 0 and 10." << endl;
+            }
+        } else {
+            cout << "Invalid input. Please enter a valid number." <<endl;
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    } while (!validInput);
+
+validInput=false;
