@@ -403,7 +403,16 @@ int main(){
         }
         
         
-        else if(choice == 9){
+else if(choice == 8){
+            for(int i=0; i<patron_counter; i++){
+                cout << "########################################################"<< endl;
+                cout << "Name: "<< patron_info[i][0] << endl;
+                cout << patron_info[i][1] << endl;
+                cout << patron_info[i][2] << endl;
+                cout << "ID: " << patron_info[i][3] << endl;
+            }
+        }  
+      else if(choice == 9){
             string name;
             int checker = 0;
             cout << "What is the name of the patron u want to search : "<< endl;
