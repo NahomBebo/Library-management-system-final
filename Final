@@ -342,3 +342,80 @@ else if(choice == 3){
                 cout << "The book doesnt exist" << endl;
             }
         }
+else if(choice == 6){
+
+            for(int i=0; i<book_counter; i++){     
+
+                // if (i == 0){
+
+                //     cout << "Digital Electronics:" << endl;
+
+                //     cout << "########################################################"<< endl;
+
+                // }
+
+                // else if (i == 5){
+
+                //     cout << "C++:" << endl;
+
+                //     cout << "########################################################"<< endl;
+
+                // }
+
+                // else if (i == 10)
+
+                // {   cout << "Java:" << endl;
+
+                //     cout << "########################################################"<< endl;
+
+                // }
+
+                // else if (i == 15)
+
+                // {   
+
+                //     cout << "Python:" << endl;
+
+                //     cout << "########################################################"<< endl;
+
+                //     }
+
+                // else if (i == 20)
+
+                // {   
+
+                //     cout << "Networking:" << endl;
+
+                //     cout << "########################################################"<< endl;
+
+                // }
+
+                // else if (i == 37)
+
+                //     {cout << "Date Structures:" << endl;
+
+                //     cout << "########################################################"<< endl;
+
+                // } 
+
+
+
+
+
+                // Prints all the data excpet the one's with 0 cause we assign 0 as removed books
+
+                if(catalog[i][0] != "0" && catalog[i][1] != "0"){                     
+
+                    cout <<"The book's name is " << catalog[i][0] << endl;
+
+                    cout << "The book's author is " << catalog[i][1] << endl; 
+
+                    cout << "###############################################" << endl; 
+
+                }               
+
+            }
+
+            cout<< book_counter << " books are in the catalog"<< endl;
+
+        }
