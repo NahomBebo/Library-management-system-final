@@ -322,4 +322,23 @@ else if(choice == 3){
             cout << "Either you haven't borrowed or the student is not in the list" << endl;
             goto main; 
         }
-        
+        else if(choice == 5){
+            string book_name;
+            cout << "Please enter the name of the book: ";
+            cin.ignore();
+            getline(cin,book_name);
+            
+            int checker = 0;
+            for(int i=0; i<100; i++){
+                // If the data matches what the user has enterd it will displat the rest info
+                if(catalog[i][0] == book_name){
+                   cout <<"The book's name is " << catalog[i][0] << endl;
+                   cout << "The book's author is " << catalog[i][1] << endl; 
+                   checker = 1;
+                }
+            }
+
+            if(checker == 0){
+                cout << "The book doesnt exist" << endl;
+            }
+        }
